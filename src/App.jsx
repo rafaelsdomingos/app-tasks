@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from 'axios';
 
 import Tasks from "./components/tasks/Tasks";
 import AddTask from "./components/add-task/AddTask";
@@ -12,24 +13,18 @@ import "./App.css"
 
 const App = () => {
 
-  const [ tasks, setTasks ] = useState([
-    {
-      id: '1',
-      title: 'Estudar Node',
-      completed: true,
-    },
-    {
-      id: '2',
-      title: 'Estudar Angular',
-      completed: false,
-    },
-    {
-      id: '3',
-      title: 'Estudar React',
-      completed: true,
-    },
+  const url = "https://sheetdb.io/api/v1/5zx9o4gdafiwz";
+  const [ tasks, setTasks ] = useState([])
 
-  ])
+  useEffect(()=>{
+    const fetchTasks = async ()=>{
+      const {data} = await axios.get(url)
+
+      setTasks(data)
+    }
+    fetchTasks()
+
+  },[])
 
   const handleTaskClick = (taskId) =>{
     const newTasks = tasks.map((task)=>{
@@ -43,13 +38,14 @@ const App = () => {
   }
 
   const handleTaskAddition = (taskTitle) =>{
-    const newTasks = [...tasks, {
+
+    const newTask = {
       title: taskTitle,
       id: uuidv4(),
       completed: false,
-      },
-    ]
+    }
 
+    const newTasks = [...tasks, newTask]
     setTasks(newTasks)
   }
 

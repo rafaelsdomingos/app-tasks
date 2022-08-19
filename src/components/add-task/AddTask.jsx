@@ -6,13 +6,20 @@ const AddTask = ({handleTaskAddition}) => {
 
     const [inputData, setInputData] = useState('');
 
+    //atualizando o valor digitado no input
     const handleInputChange = (e) => {
         setInputData(e.target.value);
     }
 
+    //salvando a nova tarefa
     const handleTaskClick = () =>{
-        handleTaskAddition(inputData)
-        setInputData('')
+        if(inputData.length > 0){
+            handleTaskAddition(inputData)
+            setInputData('')
+        }
+        else{
+            return alert('Por favor digite o título da tarefa')
+        }
     }
 
     return ( 
