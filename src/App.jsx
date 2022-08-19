@@ -45,12 +45,22 @@ const App = () => {
       completed: false,
     }
 
+    //adicionando a tarefa na API
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newTask)
+    })
+
     const newTasks = [...tasks, newTask]
     setTasks(newTasks)
   }
 
   const handleTaskDeletion = (taskId) =>{
     const newTasks = tasks.filter(task => task.id !== taskId);
+    fetch(`${url}/id/${taskId}`, {method: 'DELETE'})
     setTasks(newTasks);
   }
 
